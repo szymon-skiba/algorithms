@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Random;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 import pl.edu.pw.ee.services.Sorting;
 
-public class QuickSortTest {
+public class RefAlgorithmTest {
 
     private Sorting sorter;
     private Random random;
