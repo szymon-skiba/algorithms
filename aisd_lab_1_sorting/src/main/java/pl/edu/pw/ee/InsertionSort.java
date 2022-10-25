@@ -19,5 +19,4 @@ public class InsertionSort implements Sorting {
             nums[j] = tmp;
         }
     }
-
 }

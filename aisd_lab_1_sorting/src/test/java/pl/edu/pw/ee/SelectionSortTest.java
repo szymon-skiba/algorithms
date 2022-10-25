@@ -1,6 +1,7 @@
 package pl.edu.pw.ee;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -19,6 +20,16 @@ public class SelectionSortTest {
     private double generateRandomWithSeed() {
         return (random.nextDouble() * 1000);
 
+    }
+
+    private List<Double> arrayToList(double[] nums) {
+        List<Double> numsAsList = new ArrayList<>();
+
+        for (Double num : nums) {
+            numsAsList.add(num);
+        }
+
+        return numsAsList;
     }
 
     @Before
@@ -84,7 +95,7 @@ public class SelectionSortTest {
 
         //when
         sorter.sort(nums);
-        
+
         //then
         double[] expected = {1, 2, 3, 4, 5};
         assertArrayEquals(expected, nums, EPS);
@@ -134,27 +145,30 @@ public class SelectionSortTest {
     public void randomArrayGeneretedGiven() {
         //given
         double[] nums = new double[TEST_SIZE];
+        double[] copy = new double[TEST_SIZE];
         for (int i = 0; i < TEST_SIZE; i++) {
             nums[i] = generateRandomWithSeed();
+            copy[i] = nums[i];
         }
 
         //when 
         sorter.sort(nums);
 
         //then
-        double[] expected = new double[TEST_SIZE];
-        for (int i = 0; i < TEST_SIZE; i++) {
-            expected[i] = generateRandomWithSeed();
-        }
         for (int i = 0; i < TEST_SIZE - 1; i++) {
             if (nums[i] > nums[i + 1]) {
                 assert false;
+                return;
             }
         }
 
-        if (Arrays.asList(nums).containsAll(Arrays.asList(expected))) {
+        List<Double> numsCompare = arrayToList(nums);
+        List<Double> copyCompare = arrayToList(copy);
+        if (numsCompare.containsAll(copyCompare)) {
             assert true;
+            return;
         }
 
+        assert false;
     }
 }
