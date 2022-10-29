@@ -45,7 +45,7 @@ public class HashListChainingTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void performanceTestForHashTableSizes() {
         PrintWriter writer = null;
         List<String> data = null;
@@ -67,19 +67,22 @@ public class HashListChainingTest {
         writer.print("Rozmiar;Czas_w_milisekundach\n");
 
         for (int i : hashTableSizes) {
-            hashTable = new HashListChaining<>(i);
+            long sum = 0;
+            for (int k = 0; k < 30; k++) {
+                hashTable = new HashListChaining<>(i);
 
-            for (String text : data) {
-                hashTable.add(text);
+                for (String text : data) {
+                    hashTable.add(text);
+                }
+
+                long start = System.currentTimeMillis();
+                for (String text : data) {
+                    hashTable.get(text);
+                }
+                long end = System.currentTimeMillis();
+                sum += (end - start);
             }
-
-            long start = System.currentTimeMillis();
-            for (String text : data) {
-                hashTable.get(text);
-            }
-            long end = System.currentTimeMillis();
-
-            writer.print((i) + ";" + (end - start) + "\n");
+            writer.print((i) + ";" + (sum / 30.0) + "\n");
         }
         writer.close();
         assert true;

@@ -20,7 +20,7 @@ public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
     }
 
     public HashListChaining(int size) {
-        if(size < 1){
+        if (size < 1) {
             throw new IllegalArgumentException("Size must be greater than 0");
         }
         hashElems = new Elem[size];
@@ -29,7 +29,7 @@ public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
 
     @Override
     public void add(T value) {
-        if(value == null){
+        if (value == null) {
             throw new IllegalArgumentException("There has to be object passed, not null");
         }
         int hashCode = value.hashCode();
@@ -49,7 +49,7 @@ public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
 
     @Override
     public T get(T value) {
-        if(value == null){
+        if (value == null) {
             throw new IllegalArgumentException("There has to be object passed, not null");
         }
         int hashCode = value.hashCode();
@@ -65,7 +65,7 @@ public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
 
     @Override
     public void delete(T value) {
-        if(value == null){
+        if (value == null) {
             throw new IllegalArgumentException("There has to be object passed, not null");
         }
         int hashCode = value.hashCode();
@@ -81,7 +81,7 @@ public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
 
         if (elemLast != nil && elem != nil) {
             elemLast.next = elem.next;
-        }else if(elem!=nil){
+        } else if (elem != nil) {
             hashElems[hashId] = nil;
         }
     }

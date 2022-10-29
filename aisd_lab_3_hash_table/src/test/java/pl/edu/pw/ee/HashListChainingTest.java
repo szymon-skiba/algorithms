@@ -14,11 +14,12 @@ public class HashListChainingTest {
     private final int hashListSizeForTEST = 10;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         hashTable = new HashListChaining<>(hashListSizeForTEST);
     }
+
     @Test(expected = IllegalArgumentException.class)
-    public void initializeWithZeroSize(){
+    public void initializeWithZeroSize() {
         //given
         int size = 0;
 
@@ -30,7 +31,7 @@ public class HashListChainingTest {
     }
 
     @Test
-    public void addAndThenGet(){
+    public void addAndThenGet() {
         //given
         String text = "test";
         String textFromGet;
@@ -40,11 +41,11 @@ public class HashListChainingTest {
         textFromGet = hashTable.get("test");
 
         //then
-        assertEquals(text,textFromGet);
+        assertEquals(text, textFromGet);
     }
 
     @Test
-    public void addTheSameValueTwoTimes(){
+    public void addTheSameValueTwoTimes() {
         //given
         HashListChaining<Double> hashListChaining = new HashListChaining<>(hashListSizeForTEST);
         Double number = 1.0;
@@ -56,12 +57,12 @@ public class HashListChainingTest {
         loadFactor = hashListChaining.countLoadFactor();
 
         //then
-        double expected = 1.0/hashListSizeForTEST;
-        assertEquals(expected,loadFactor,DELTA);
+        double expected = 1.0 / hashListSizeForTEST;
+        assertEquals(expected, loadFactor, DELTA);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void addNullAndGetException(){
+    public void addNullAndGetException() {
         //given
         String text = null;
 
@@ -73,7 +74,7 @@ public class HashListChainingTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void getNullAndThrowException(){
+    public void getNullAndThrowException() {
         //given
         String text = null;
 
@@ -85,7 +86,7 @@ public class HashListChainingTest {
     }
 
     @Test
-    public void getValueThatDoesntExist(){
+    public void getValueThatDoesntExist() {
         //given
         String text = "test";
         String got;
@@ -98,42 +99,41 @@ public class HashListChainingTest {
     }
 
     @Test
-    public void add50TimesAndGetThemCorrectly(){
+    public void add50TimesAndGetThemCorrectly() {
         //given
 
         //when
-        for(double i=0;i<50.0;i++){
+        for (double i = 0; i < 50.0; i++) {
             hashTable.add(String.valueOf(i));
         }
 
         //then
-        for(double i=0;i<50.0;i++){
-            assertEquals(String.valueOf(i),hashTable.get(String.valueOf(i)));
+        for (double i = 0; i < 50.0; i++) {
+            assertEquals(String.valueOf(i), hashTable.get(String.valueOf(i)));
         }
     }
 
     @Test
-    public void add50TimesAndDeleteThemCorrectly(){
+    public void add50TimesAndDeleteThemCorrectly() {
         //given
 
         //when
-        for(double i=0;i<50.0;i++){
+        for (double i = 0; i < 50.0; i++) {
             hashTable.add(String.valueOf(i));
         }
-        for(double i=0;i<50.0;i++){
+        for (double i = 0; i < 50.0; i++) {
             hashTable.delete(String.valueOf(i));
         }
 
         //then
-        for(double i=0;i<50.0;i++){
+        for (double i = 0; i < 50.0; i++) {
             assertNull(hashTable.get(String.valueOf(i)));
         }
     }
 
 
-
     @Test
-    public void addAndThenDelete(){
+    public void addAndThenDelete() {
         //given
         String text = "test";
         String textFromGet;
@@ -148,7 +148,7 @@ public class HashListChainingTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void passNullToDelete(){
+    public void passNullToDelete() {
         //given
         String text = null;
 
@@ -160,7 +160,7 @@ public class HashListChainingTest {
     }
 
     @Test
-    public void deleteValueThatDoesntExistNothingShouldHappen(){
+    public void deleteValueThatDoesntExistNothingShouldHappen() {
         //given
         String text = "test";
 
@@ -183,7 +183,7 @@ public class HashListChainingTest {
         loadFactor = hashListChaining.countLoadFactor();
 
         //then
-        double expected = 1.0/hashListSizeForTEST;
-        assertEquals(expected,loadFactor,DELTA);
+        double expected = 1.0 / hashListSizeForTEST;
+        assertEquals(expected, loadFactor, DELTA);
     }
 }
