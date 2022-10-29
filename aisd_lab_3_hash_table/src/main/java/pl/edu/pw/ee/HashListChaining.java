@@ -20,7 +20,7 @@ public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
     }
 
     public HashListChaining(int size) {
-        if(size == 0){
+        if(size < 1){
             throw new IllegalArgumentException("Size must be greater than 0");
         }
         hashElems = new Elem[size];
