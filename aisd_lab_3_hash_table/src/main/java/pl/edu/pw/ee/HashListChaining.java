@@ -2,66 +2,77 @@ package pl.edu.pw.ee;
 
 import pl.edu.pw.ee.services.HashTable;
 
-public class HashListChaining implements HashTable {
+public class HashListChaining<T extends Comparable<T>> implements HashTable<T> {
 
-    private final Elem nil = null;
-    private Elem[] hashElems;
+    private final Elem<T> nil = null;
+    private final Elem<T>[] hashElems;
     private int nElem;
 
-    private class Elem {
+    private static class Elem<T extends Comparable<T>> {
 
-        private Object value;
-        private Elem next;
+        private T value;
+        private Elem<T> next;
 
-        Elem(Object value, Elem nextElem) {
+        Elem(T value, Elem<T> nextElem) {
             this.value = value;
             this.next = nextElem;
         }
     }
 
     public HashListChaining(int size) {
+        if(size == 0){
+            throw new IllegalArgumentException("Size must be greater than 0");
+        }
         hashElems = new Elem[size];
         initializeHash();
     }
 
     @Override
-    public void add(Object value) {
+    public void add(T value) {
+        if(value == null){
+            throw new IllegalArgumentException("There has to be object passed, not null");
+        }
         int hashCode = value.hashCode();
         int hashId = countHashId(hashCode);
 
-        Elem oldElem = hashElems[hashId];
-        while (oldElem != nil && !oldElem.equals(value)) {
+        Elem<T> oldElem = hashElems[hashId];
+        while (oldElem != nil && !oldElem.value.equals(value)) {
             oldElem = oldElem.next;
         }
         if (oldElem != nil) {
             oldElem.value = value;
         } else {
-            hashElems[hashId] = new Elem(value, hashElems[hashId]);
+            hashElems[hashId] = new Elem<>(value, hashElems[hashId]);
             nElem++;
         }
     }
 
     @Override
-    public Object get(Object value) {
+    public T get(T value) {
+        if(value == null){
+            throw new IllegalArgumentException("There has to be object passed, not null");
+        }
         int hashCode = value.hashCode();
         int hashId = countHashId(hashCode);
 
-        Elem elem = hashElems[hashId];
-
+        Elem<T> elem = hashElems[hashId];
         while (elem != nil && !elem.value.equals(value)) {
             elem = elem.next;
         }
 
-        return elem != nil ? elem.value : nil;
+        return elem != nil ? elem.value : (T) nil;
     }
 
     @Override
-    public void delete(Object value) {
+    public void delete(T value) {
+        if(value == null){
+            throw new IllegalArgumentException("There has to be object passed, not null");
+        }
         int hashCode = value.hashCode();
         int hashId = countHashId(hashCode);
 
-        Elem elem = hashElems[hashId];
-        Elem elemLast = nil;
+        Elem<T> elem = hashElems[hashId];
+        Elem<T> elemLast = nil;
 
         while (elem != nil && !elem.value.equals(value)) {
             elemLast = elem;
@@ -92,5 +103,4 @@ public class HashListChaining implements HashTable {
         int n = hashElems.length;
         return Math.abs(hashCode) % n;
     }
-
 }
