@@ -56,12 +56,12 @@ public class HashLinearProbingTest {
     }
 
     @Test
-    public void hashWhenSizeIsZero(){
-       HashLinearProbing<String> hash = new HashLinearProbing<>();
-       
-       System.out.println(hash.hashFunc(10, 10));
-       
-       assert true;
+    public void hashWhenSizeIsZero() {
+        HashLinearProbing<String> hash = new HashLinearProbing<>();
+
+        System.out.println(hash.hashFunc(10, 10));
+
+        assert true;
     }
 
     @Test
@@ -205,9 +205,9 @@ public class HashLinearProbingTest {
     @Test
     public void should_addInPlaceOfDeletedWithInteger() {
         // given
-        HashOpenAdressing emptyHash = new HashLinearProbing<>();
+        HashOpenAdressing<Integer> emptyHash = new HashLinearProbing<>();
         Integer newEleme = 1;
-System.out.println(1 %0);
+
         emptyHash.put(newEleme);
         int indexBeforeDelete = emptyHash.testSupportMethod_getIndexOfElem(newEleme);
         emptyHash.delete(newEleme);

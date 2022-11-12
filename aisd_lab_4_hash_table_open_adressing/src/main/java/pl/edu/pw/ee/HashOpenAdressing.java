@@ -50,7 +50,6 @@ public abstract class HashOpenAdressing<T extends Comparable<T>> implements Hash
         int fisrtHashId = hashId;
 
         while (hashElems[hashId] != nil) {
-            System.out.println(String.valueOf(hashElems[hashId]));
             if (hashElems[hashId].compareTo(newElem) == 0) {
                 hashElems[hashId] = newElem;
                 return;
@@ -61,8 +60,13 @@ public abstract class HashOpenAdressing<T extends Comparable<T>> implements Hash
             i = (i + 1) % size;
             hashId = hashFunc(key, i);
             if (hashId == fisrtHashId) {
+                if(hashIdCheckDeleted != -1){
+                    break;
+                }
                 doubleResize();
+                hashIdCheckDeleted = -1;
                 i = 0;
+                hashId = hashFunc(key, i);
             }
         }
 

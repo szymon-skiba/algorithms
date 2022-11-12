@@ -44,7 +44,7 @@ public class PerformanceTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void performanceTestForHashTableSizes() {
         PrintWriter writer = null;
         List<String> data = null;

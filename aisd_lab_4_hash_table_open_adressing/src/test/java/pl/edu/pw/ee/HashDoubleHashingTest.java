@@ -207,7 +207,7 @@ public class HashDoubleHashingTest {
     @Test
     public void should_addInPlaceOfDeletedWithInteger() {
         // given
-        HashOpenAdressing emptyHash = new HashDoubleHashing<>();
+        HashOpenAdressing<Integer> emptyHash = new HashDoubleHashing<>();
         Integer newEleme = 1;
 
         emptyHash.put(newEleme);

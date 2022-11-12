@@ -197,7 +197,7 @@ public class HashQuadraticProbingTest {
     @Test
     public void should_addInPlaceOfDeletedWithInteger() {
         // given
-        HashOpenAdressing emptyHash = new HashQuadraticProbing<>();
+        HashOpenAdressing<Integer> emptyHash = new HashQuadraticProbing<>();
         Integer newEleme = 1;
 
         emptyHash.put(newEleme);
