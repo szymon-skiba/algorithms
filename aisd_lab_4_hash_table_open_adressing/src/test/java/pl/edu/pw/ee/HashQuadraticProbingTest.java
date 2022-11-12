@@ -1,23 +1,24 @@
 package pl.edu.pw.ee;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
+import pl.edu.pw.ee.services.HashTable;
 
 import java.lang.reflect.Field;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import pl.edu.pw.ee.services.HashTable;
-
-public class HashLinearProbingTest {
+public class HashQuadraticProbingTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void should_ThrowException_WhenInitialSizeIsLowerThanOne() {
         // given
         int initialSize = 0;
+        int a = 2;
+        int b = 2;
 
         // when
-        HashTable<Double> unusedHash = new HashLinearProbing<>(initialSize);
+        HashTable<Double> unusedHash = new HashQuadraticProbing<>(initialSize, a, b);
 
         // then
         assert false;
@@ -26,7 +27,7 @@ public class HashLinearProbingTest {
     @Test
     public void should_CorrectlyAddNewElems_WhenNotExistInHashTable() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = "nothing special";
 
         // when
@@ -56,18 +57,9 @@ public class HashLinearProbingTest {
     }
 
     @Test
-    public void hashWhenSizeIsZero(){
-       HashLinearProbing<String> hash = new HashLinearProbing<>();
-       
-       System.out.println(hash.hashFunc(10, 10));
-       
-       assert true;
-    }
-
-    @Test
     public void should_NotAddNewElems_WhenExistInHashTable() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = "nothing special";
 
         // when
@@ -84,7 +76,7 @@ public class HashLinearProbingTest {
     @Test(expected = IllegalArgumentException.class)
     public void putShould_throwError_WhenPassingNull() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = null;
 
         // when
@@ -97,7 +89,7 @@ public class HashLinearProbingTest {
     @Test
     public void getShould_returnNull_WhenEmptyHashTable() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String Elem = "nothing special";
 
         // when
@@ -110,7 +102,7 @@ public class HashLinearProbingTest {
     @Test
     public void getShould_returnElemAndNotDelete() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String Elem = "nothing special";
 
         // when
@@ -126,7 +118,7 @@ public class HashLinearProbingTest {
     @Test(expected = IllegalArgumentException.class)
     public void getShould_throwError_WhenPassingNull() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String Elem = null;
 
         // when
@@ -140,7 +132,7 @@ public class HashLinearProbingTest {
     @Test
     public void numOfElemsInHasTable_should_dropAfterDelete() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = "nothing special";
 
         // when
@@ -157,7 +149,7 @@ public class HashLinearProbingTest {
     @Test
     public void elemShould_notBeInHashTableAfterDelete() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = "nothing special";
 
         // when
@@ -171,7 +163,7 @@ public class HashLinearProbingTest {
     @Test(expected = IllegalArgumentException.class)
     public void deletedPointer_InHashTableAfterDelete() {
         // given
-        HashTable<String> emptyHash = new HashLinearProbing<>();
+        HashTable<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = "nothing special";
         String deletedPointer = "deletedElementPointer_DemonstrationPurpose";
 
@@ -188,7 +180,7 @@ public class HashLinearProbingTest {
     @Test
     public void should_addInPlaceOfDeleted() {
         // given
-        HashOpenAdressing<String> emptyHash = new HashLinearProbing<>();
+        HashOpenAdressing<String> emptyHash = new HashQuadraticProbing<>();
         String newEleme = "nothing special";
 
         // when
@@ -205,9 +197,9 @@ public class HashLinearProbingTest {
     @Test
     public void should_addInPlaceOfDeletedWithInteger() {
         // given
-        HashOpenAdressing emptyHash = new HashLinearProbing<>();
+        HashOpenAdressing emptyHash = new HashQuadraticProbing<>();
         Integer newEleme = 1;
-System.out.println(1 %0);
+
         emptyHash.put(newEleme);
         int indexBeforeDelete = emptyHash.testSupportMethod_getIndexOfElem(newEleme);
         emptyHash.delete(newEleme);

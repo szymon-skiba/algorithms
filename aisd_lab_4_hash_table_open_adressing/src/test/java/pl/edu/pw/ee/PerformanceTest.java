@@ -1,13 +1,16 @@
 package pl.edu.pw.ee;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import pl.edu.pw.ee.services.HashTable;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PerformanceTest {
 
-    private final int[] hashTableSizes = {512,1024,2048,4096,8192,16384,32768,65536,131072,262144};
+    private final int[] hashTableSizes = {512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144};
     private final String performanceTestDataPath = "src\\data\\performanceTestData.txt";
     private final String performanceTestResultsPath = "src\\data\\performanceTestResults.txt";
     private HashTable<String> hashTable;
@@ -41,7 +44,7 @@ public class PerformanceTest {
     }
 
     @Test
-//    @Ignore
+    @Ignore
     public void performanceTestForHashTableSizes() {
         PrintWriter writer = null;
         List<String> data = null;
@@ -66,7 +69,7 @@ public class PerformanceTest {
             long sum = 0;
             for (int k = 0; k < 30; k++) {
                 hashTable = new HashLinearProbing<>(i);
-                
+
                 long start = System.currentTimeMillis();
                 for (String text : data) {
                     hashTable.put(text);
