@@ -9,7 +9,7 @@ public enum HuffmanTreeNodeSpecs {
         ROOT;
     }
 
-    public enum Direction{
+    public enum Direction {
 
         LEFT_NODE(0),
         RIGHT_NODE(1),

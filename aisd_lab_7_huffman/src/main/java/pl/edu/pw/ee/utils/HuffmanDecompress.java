@@ -19,7 +19,7 @@ public class HuffmanDecompress implements DataManagementOption {
     private int fill;
 
 
-    private void readFrequencies() throws StreamManagerException{
+    private void readFrequencies() throws StreamManagerException {
         CharFormat input = new CharFormat();
         input.createInput(fileManagement.getSupportFile());
 
@@ -28,20 +28,20 @@ public class HuffmanDecompress implements DataManagementOption {
         fill = input.read();
 
         int c;
-        while ((c = input.read())!=-1) {
+        while ((c = input.read()) != -1) {
             StringBuilder value = new StringBuilder();
             int tmp;
-            while ((char)(tmp = input.read()) != '\n') {
+            while ((char) (tmp = input.read()) != '\n') {
                 value.append(Character.getNumericValue(tmp));
             }
 
-            frequencies.put((char)c, Integer.valueOf(value.toString()));
+            frequencies.put((char) c, Integer.valueOf(value.toString()));
         }
 
         input.closeInput();
     }
 
-    private void deleteOutput() throws StreamManagerException{
+    private void deleteOutput() throws StreamManagerException {
         CharFormat output = new CharFormat();
         output.createOutput(fileManagement.getOutputFile());
         output.closeOutput();
@@ -73,7 +73,7 @@ public class HuffmanDecompress implements DataManagementOption {
 
             while ((c = input.read()) != -1) {
 
-                if(node == null){
+                if (node == null) {
                     input.closeInput();
                     output.closeOutput();
                     deleteOutput();
@@ -85,14 +85,22 @@ public class HuffmanDecompress implements DataManagementOption {
                 } else {
                     node = node.getLeft();
                 }
-                if (node.getType()==LEAF) {
-                    result ++;
+
+                if (node == null) {
+                    input.closeInput();
+                    output.closeOutput();
+                    deleteOutput();
+                    return -1;
+                }
+
+                if (node.getType() == LEAF) {
+                    result++;
                     output.write(node.getCharacter());
                     node = tree.getRoot();
                 }
             }
 
-            if(node.getType()!=LEAF && node.getType()!=ROOT){
+            if (node.getType() != LEAF && node.getType() != ROOT) {
                 deleteOutput();
                 input.closeInput();
                 output.closeOutput();
@@ -105,10 +113,10 @@ public class HuffmanDecompress implements DataManagementOption {
         } catch (StreamManagerException e) {
             System.out.println(e.getMessage());
             return -1;
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return -1;
-        }  catch (IllegalCallerException e){
+        } catch (IllegalCallerException e) {
             System.out.println(e.getMessage());
             return -1;
         }

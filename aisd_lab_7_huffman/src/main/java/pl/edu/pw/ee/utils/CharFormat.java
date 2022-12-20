@@ -17,6 +17,16 @@ public class CharFormat {
     private BufferedReader in;
 
     public void createInput(String path) {
+
+        if (path == null) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path : cannot be null");
+        }
+
+        File f = new File(path);
+        if (!f.exists()) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating output");
+        }
+
         try {
             this.in = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
         } catch (FileNotFoundException e) {
@@ -28,6 +38,15 @@ public class CharFormat {
 
 
     public void createOutput(String path) {
+        if (path == null) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path : cannot be null");
+        }
+
+        File f = new File(path);
+        if (!f.exists()) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating output");
+        }
+
         try {
             this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path)));
         } catch (FileNotFoundException e) {

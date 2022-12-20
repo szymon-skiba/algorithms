@@ -71,11 +71,13 @@ public class HuffmanCompress implements DataManagementOption {
 
         return result + fill;
     }
-    private void deleteOutput() throws StreamManagerException{
+
+    private void deleteOutput() throws StreamManagerException {
         BitFormat output = new BitFormat();
         output.createOutput(fileManagement.getOutputFile());
         output.closeOutput();
     }
+
     private void saveFrequencies(Map<Character, Integer> frequencies, int fill) throws StreamManagerException {
         CharFormat output = new CharFormat();
         output.createOutput(fileManagement.getSupportFile());

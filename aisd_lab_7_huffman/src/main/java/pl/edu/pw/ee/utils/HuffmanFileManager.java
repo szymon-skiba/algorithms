@@ -61,7 +61,7 @@ public class HuffmanFileManager implements FileManagement {
 
 
         File fq = new File(checkedFrequencies);
-        if(!fq.exists() || !fq.canRead() || !fq.isFile()){
+        if (!fq.exists() || !fq.canRead() || !fq.isFile()) {
             throw new FilesNotMangedException("Error while verifying file for decompression <" + checkedOutput + ">: doesn't exist or is not readable or is not a file");
         }
 
@@ -71,7 +71,7 @@ public class HuffmanFileManager implements FileManagement {
 
     }
 
-    private void prepareCompressionFiles() throws FilesNotMangedException{
+    private void prepareCompressionFiles() throws FilesNotMangedException {
         String checkedInput = pathToRootDir + INPUT_CHAR_FILE;
         String checkedOutput = pathToRootDir + OUTPUT_BIN_FILE;
         String checkedFrequencies = pathToRootDir + FREQUENCIES_ALL_FILE;
@@ -90,7 +90,7 @@ public class HuffmanFileManager implements FileManagement {
 
     }
 
-    private void validateFile(String filePath){
+    private void validateFile(String filePath) {
         File f = new File(filePath);
         if (f.exists()) {
             if (!f.canRead() || !f.isFile()) {
@@ -98,12 +98,12 @@ public class HuffmanFileManager implements FileManagement {
             }
         } else {
             try {
-                if(!f.createNewFile()){
+                if (!f.createNewFile()) {
                     throw new FilesNotMangedException("Error while creating file <" + filePath + ">");
                 }
 
             } catch (IOException e) {
-                throw new FilesNotMangedException("Error while creating file <" + filePath + ">: "+e.getMessage());
+                throw new FilesNotMangedException("Error while creating file <" + filePath + ">: " + e.getMessage());
             }
         }
     }

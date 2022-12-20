@@ -29,10 +29,23 @@ public class BitFormat {
 
 
     public void createInput(String path, int numberOfBitsToIgnore) {
+        if (path == null) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path : cannot be null");
+        }
+
+        if (numberOfBitsToIgnore < 0) {
+            throw new StreamManagerException(this.getClass().getName() + ": Ignored bits cant be negative number");
+        }
+
+        File f = new File(path);
+        if (!f.exists()) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating output");
+        }
+
         try {
             in = new BufferedInputStream(new FileInputStream(path), 1);
         } catch (FileNotFoundException e) {
-            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating input: " + e.getMessage());
+            throw new StreamManagerException(": Wrong file path while creating input: " + e.getMessage());
         }
 
         INPUT_MODE = ON;
@@ -49,7 +62,16 @@ public class BitFormat {
     }
 
 
-    public void createOutput(String path){
+    public void createOutput(String path) {
+        if (path == null) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path : cannot be null");
+        }
+
+        File f = new File(path);
+        if (!f.exists()) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating output");
+        }
+
         try {
             out = new BufferedOutputStream(new FileOutputStream(path), 1);
         } catch (FileNotFoundException e) {

@@ -65,7 +65,7 @@ public class HuffmanTreeNode implements Comparable<HuffmanTreeNode> {
         this.right = right;
     }
 
-    public void setType(HuffmanTreeNodeSpecs.Type type){
+    public void setType(HuffmanTreeNodeSpecs.Type type) {
         this.type = type;
     }
 

@@ -26,7 +26,7 @@ public class HuffmanTree {
         PriorityQueue<HuffmanTreeNode> q;
         try {
             q = createPriorityQue();
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return;
         }
@@ -41,10 +41,11 @@ public class HuffmanTree {
                 node.setRight(smallestTwo);
                 q.add(node);
             } else {
-                if(frequencies.size()==1){
+                if (frequencies.size() == 1) {
                     root = new HuffmanTreeNode(smallestOne.getValue());
                     root.setType(HuffmanTreeNodeSpecs.Type.ROOT);
                     root.setRight(smallestOne);
+                    break;
                 }
                 root = smallestOne;
                 root.setDirection(ROOT);
