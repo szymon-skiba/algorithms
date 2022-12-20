@@ -11,5 +11,6 @@
     <file url="file://$PROJECT_DIR$/../aisd_lab_4_hash_table_open_adressing/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/file_to_compress.txt" charset="windows-1250" />
   </component>
 </project>

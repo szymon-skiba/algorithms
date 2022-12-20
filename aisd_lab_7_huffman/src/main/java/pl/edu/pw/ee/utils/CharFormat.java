@@ -1,37 +1,92 @@
 package pl.edu.pw.ee.utils;
 
-import pl.edu.pw.ee.HuffmanTree;
-import pl.edu.pw.ee.services.DataStreamFormat;
+import pl.edu.pw.ee.exceptions.StreamManagerException;
 
-public class CharFormat implements DataStreamFormat<Character> {
+import java.io.*;
 
-    @Override
-    public void createInput(String pathToRootDir) {
+public class CharFormat {
 
+    private final boolean ON = true;
+    private final boolean OFF = false;
+
+
+    private boolean INPUT_MODE = OFF;
+    private boolean OUTPUT_MODE = OFF;
+
+    private BufferedWriter out;
+    private BufferedReader in;
+
+    public void createInput(String path) {
+        try {
+            this.in = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+        } catch (FileNotFoundException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating input: " + e.getMessage());
+        }
+
+        INPUT_MODE = ON;
     }
 
-    @Override
-    public void createOutput(String fileName) {
 
+    public void createOutput(String path) {
+        try {
+            this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path)));
+        } catch (FileNotFoundException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating output: " + e.getMessage());
+        }
+
+        OUTPUT_MODE = ON;
     }
 
-    @Override
-    public Character read() {
-        return null;
+
+    public int read() {
+        if (INPUT_MODE == OFF) {
+            throw new StreamManagerException(this.getClass().getName() + ": Input was not created");
+        }
+        int c;
+
+        try {
+            c = in.read();
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while reading data: " + e.getMessage());
+        }
+
+        return c;
     }
 
-    @Override
-    public void write(Character c) {
 
+    public void write(char c) {
+        if (OUTPUT_MODE == OFF) {
+            throw new StreamManagerException(this.getClass().getName() + ": Output was not created");
+        }
+
+        try {
+            out.write(c);
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while writing data: " + e.getMessage());
+        }
     }
 
-    @Override
+
     public void closeInput() {
-
+        if (INPUT_MODE == OFF) {
+            throw new StreamManagerException(this.getClass().getName() + ": Output was not created");
+        }
+        try {
+            in.close();
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while closing input: " + e.getMessage());
+        }
     }
 
-    @Override
-    public void closeOutput() {
 
+    public void closeOutput() {
+        if (OUTPUT_MODE == OFF) {
+            throw new StreamManagerException(this.getClass().getName() + ": Output was not created");
+        }
+        try {
+            out.close();
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while closing output: " + e.getMessage());
+        }
     }
 }

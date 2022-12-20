@@ -1,74 +1,147 @@
 package pl.edu.pw.ee.utils;
 
-import pl.edu.pw.ee.services.DataStreamFormat;
+import pl.edu.pw.ee.exceptions.StreamManagerException;
 
 import java.io.*;
 
-public class BitFormat implements DataStreamFormat<Integer> {
-    private final String INPUT_FILE = "file_to_decompress.txt";
-    private final String OUTPUT_FILE = "file_to_compress.txt";
+public class BitFormat {
+
+    private final boolean ON = true;
+    private final boolean OFF = false;
+
+
+    private boolean INPUT_MODE = OFF;
+    private boolean OUTPUT_MODE = OFF;
+
 
     private InputStream in;
     private OutputStream out;
 
-    private Integer currentlyReadByte;
-    private Integer currentlyReadByteRemainingBits;
 
-    private Integer currentlyWrittenByte;
-    private Integer currentlyWrittenByteFilledBits;
+    private int currentlyReadByte;
+    private int currentlyReadByteRemainingBits;
+    private int numberOfBitsToIgnore;
+    private int nextReadByte;
 
 
-    @Override
-    public void createInput(String pathToRootDir) throws FileNotFoundException {
-        this.in = new BufferedInputStream(new FileInputStream(pathToRootDir+INPUT_FILE));
+    private int currentlyWrittenByte;
+    private int currentlyWrittenByteFilledBits;
 
+
+    public void createInput(String path, int numberOfBitsToIgnore) {
+        try {
+            in = new BufferedInputStream(new FileInputStream(path), 1);
+        } catch (FileNotFoundException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating input: " + e.getMessage());
+        }
+
+        INPUT_MODE = ON;
+
+        this.numberOfBitsToIgnore = numberOfBitsToIgnore;
         currentlyReadByte = 0;
-        currentlyReadByteRemainingBits = 8;
+        currentlyReadByteRemainingBits = 0;
+
+        try {
+            nextReadByte = in.read();
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while reading data: " + e.getMessage());
+        }
     }
 
-    @Override
-    public void createOutput(String pathToRootDir) throws FileNotFoundException {
-        this.out = new BufferedOutputStream(new FileOutputStream(pathToRootDir+OUTPUT_FILE));
+
+    public void createOutput(String path){
+        try {
+            out = new BufferedOutputStream(new FileOutputStream(path), 1);
+        } catch (FileNotFoundException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Wrong file path while creating output: " + e.getMessage());
+        }
+
+        OUTPUT_MODE = ON;
 
         currentlyWrittenByte = 0;
         currentlyWrittenByteFilledBits = 0;
     }
 
-    @Override
-    public Integer read() throws IOException {
+
+    public int read() {
+        if (INPUT_MODE == OFF) {
+            throw new StreamManagerException(this.getClass().getName() + ": Input was not created");
+        }
+
         if (currentlyReadByteRemainingBits == 0) {
-            currentlyReadByte = in.read();
+            currentlyReadByte = nextReadByte;
             if (currentlyReadByte == -1)
                 return -1;
+            try {
+                nextReadByte = in.read();
+            } catch (IOException e) {
+                throw new StreamManagerException(this.getClass().getName() + ": Error while reading data: " + e.getMessage());
+            }
             currentlyReadByteRemainingBits = 8;
         }
+
+        if ((nextReadByte == -1) && (currentlyReadByteRemainingBits == numberOfBitsToIgnore)) {
+            return -1;
+        }
+
         currentlyReadByteRemainingBits--;
 
         return (currentlyReadByte >>> currentlyReadByteRemainingBits) & 1;
     }
 
-    @Override
-    public void write(Integer c) throws IOException {
+
+    public void write(int c) {
+        if (OUTPUT_MODE == OFF) {
+            throw new StreamManagerException(this.getClass().getName() + ": Output was not created");
+        }
+
         if (c != 0 && c != 1)
-            throw new IllegalArgumentException("Argument musi byc wartoscia bita: 0 lub 1.");
+            throw new StreamManagerException(this.getClass().getName() + ": Argument must be 1 or 0");
         currentlyWrittenByte = (currentlyWrittenByte << 1) | c;
         currentlyWrittenByteFilledBits++;
 
         if (currentlyWrittenByteFilledBits == 8) {
-            out.write(currentlyWrittenByte);
+            try {
+                out.write(currentlyWrittenByte);
+            } catch (IOException e) {
+                throw new StreamManagerException(this.getClass().getName() + ": Error while writing data: " + e.getMessage());
+            }
             currentlyWrittenByte = 0;
             currentlyWrittenByteFilledBits = 0;
         }
 
     }
 
-    public void closeInput() throws IOException {
-        in.close();
+    public void closeInput() {
+        if (INPUT_MODE == OFF) {
+            throw new StreamManagerException("Input was not created");
+        }
+
+        try {
+            in.close();
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while closing input: " + e.getMessage());
+        }
     }
 
-    public void closeOutput() throws IOException {
-        while (currentlyWrittenByteFilledBits != 0)
+    public int closeOutput() {
+        if (OUTPUT_MODE == OFF) {
+            throw new StreamManagerException("Output was not created");
+        }
+
+        int fill = 0;
+
+        while (currentlyWrittenByteFilledBits > 0) {
+            fill++;
             write(0);
-        out.close();
+        }
+
+        try {
+            out.close();
+        } catch (IOException e) {
+            throw new StreamManagerException(this.getClass().getName() + ": Error while closing output: " + e.getMessage());
+        }
+
+        return fill;
     }
 }
