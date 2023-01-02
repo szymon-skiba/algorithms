@@ -11,6 +11,7 @@
         <module name="aisd_lab_3_hash_table" />
         <module name="aisd_lab_1_sorting (1)" />
         <module name="aisd_lab_7_huffman" />
+        <module name="aisd_lab_9_longest_common_subsequence" />
       </profile>
     </annotationProcessing>
   </component>
